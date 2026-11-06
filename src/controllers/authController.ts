@@ -71,11 +71,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       },
     });
 } catch (error: any) {
-    console.error('Registration error:', error); // Add this line
+    console.error('Login error:', error);
     if (error.name === 'ZodError') {
       res.status(400).json({ error: 'Validation failed', details: error.issues });
     } else {
-      res.status(500).json({ error: 'Registration failed', details: error.message });
+      res.status(500).json({ error: 'Login failed', details: error.message });
     }
   }
 };
