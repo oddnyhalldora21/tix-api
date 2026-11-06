@@ -72,11 +72,7 @@ psql -d tix_api -f database/seed.sql
 
 The seed adds 3 users, 4 venues, 5 categories, 7 events, 11 ticket types and 4 bookings. The seed users' passwords are placeholders, not real hashes. To log in, register a new user through the API.
 
-> **Note on seed dates:** the seeded events are dated January–June 2026, and event 7 is deliberately in the past. The booking tests book seeded events, so once those dates have passed, move them forward before running the tests:
->
-> ```bash
-> psql -d tix_api -c "UPDATE events SET event_date = event_date + interval '1 year' WHERE id <> 7;"
-> ```
+Event dates in the seed are relative to the day you run it. Events 1–6 are always in the future, and event 7 is always in the past so the past-event booking rule can be tested.
 
 ### 4. Run
 
@@ -96,7 +92,7 @@ npm test         # watch mode
 npx vitest run   # single run
 ```
 
-There are 31 integration tests in 3 files (`auth`, `bookings`, `events`). They send real HTTP requests with Supertest against the database configured in `.env`. They expect the seed data to be loaded and the seeded events to be in the future.
+There are 31 integration tests in 3 files (`auth`, `bookings`, `events`). They send real HTTP requests with Supertest against the database configured in `.env`. They expect the seed data to be loaded. Re-run `seed.sql` to reset the data between runs.
 
 ## API reference
 

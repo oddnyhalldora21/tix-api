@@ -36,14 +36,16 @@ INSERT INTO categories (name, description, created_at) VALUES
 ('Festival', 'Music and cultural festivals', '2026-01-03 09:00:00');
 
 -- Insert Events
+-- Dates are relative to when the seed is run, so events 1-6 are always in the
+-- future and event 7 is always in the past (used by the tests).
 INSERT INTO events (name, description, event_date, venue_id, category_id, created_at) VALUES
-('Kaleo Live', 'Icelandic rock band performing their greatest hits', '2026-02-15 20:00:00', 1, 1, '2026-01-04 10:00:00'),
-('Iceland vs Norway', 'International handball match', '2026-01-25 18:00:00', 2, 2, '2026-01-04 11:00:00'),
-('Hamlet', 'Classic Shakespearean tragedy', '2026-03-10 19:30:00', 3, 3, '2026-01-05 09:00:00'),
-('Ari Eldjárn', 'Stand-up comedy in Icelandic', '2026-02-20 21:00:00', 3, 4, '2026-01-05 10:00:00'),
-('Secret Solstice', 'Three-day music festival', '2026-06-20 14:00:00', 2, 5, '2026-01-05 11:00:00'),
-('Of Monsters and Men', 'Album release concert', '2026-04-05 20:00:00', 1, 1, '2026-01-06 09:00:00'),
-('Past Event Test', 'This event is in the past for testing', '2025-12-01 20:00:00', 4, 1, '2026-01-04 15:00:00');
+('Kaleo Live', 'Icelandic rock band performing their greatest hits', date_trunc('day', NOW()) + interval '2 months' + interval '20 hours', 1, 1, '2026-01-04 10:00:00'),
+('Iceland vs Norway', 'International handball match', date_trunc('day', NOW()) + interval '1 month' + interval '18 hours', 2, 2, '2026-01-04 11:00:00'),
+('Hamlet', 'Classic Shakespearean tragedy', date_trunc('day', NOW()) + interval '3 months' + interval '19 hours 30 minutes', 3, 3, '2026-01-05 09:00:00'),
+('Ari Eldjárn', 'Stand-up comedy in Icelandic', date_trunc('day', NOW()) + interval '2 months 5 days' + interval '21 hours', 3, 4, '2026-01-05 10:00:00'),
+('Secret Solstice', 'Three-day music festival', date_trunc('day', NOW()) + interval '6 months' + interval '14 hours', 2, 5, '2026-01-05 11:00:00'),
+('Of Monsters and Men', 'Album release concert', date_trunc('day', NOW()) + interval '4 months' + interval '20 hours', 1, 1, '2026-01-06 09:00:00'),
+('Past Event Test', 'This event is in the past for testing', date_trunc('day', NOW()) - interval '1 month' + interval '20 hours', 4, 1, '2026-01-04 15:00:00');
 
 -- Insert Tickets
 INSERT INTO tickets (event_id, price, available_quantity, total_quantity, ticket_type, created_at) VALUES
