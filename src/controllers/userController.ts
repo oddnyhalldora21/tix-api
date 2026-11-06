@@ -52,7 +52,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
     });
   } catch (error: any) {
     if (error.name === 'ZodError') {
-      res.status(400).json({ error: 'Validation failed', details: error.errors });
+      res.status(400).json({ error: 'Validation failed', details: error.issues });
     } else {
       res.status(500).json({ error: 'Failed to update profile' });
     }

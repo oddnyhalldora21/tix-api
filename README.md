@@ -25,7 +25,7 @@ A REST API for booking event tickets. Users can browse concerts, sports and othe
   - A booking can only be cancelled 24 hours or more before the event starts.
   - A booking can't be cancelled twice. Users can only cancel their own bookings (otherwise `403`).
   - Creating a booking and cancelling one each run in a database transaction, which keeps ticket stock in sync. A booking takes tickets out of `available_quantity` and a cancellation puts them back.
-- **Validation.** Request bodies are checked with Zod schemas. Invalid input returns `400`.
+- **Validation.** Request bodies are checked with Zod schemas. Invalid input returns `400` with field-level error details.
 
 ## Getting started
 
@@ -156,7 +156,31 @@ curl -X POST http://localhost:3000/api/auth/register \
 ```
 
 ```json
-{ "error": "Validation failed" }
+{
+  "error": "Validation failed",
+  "details": [
+    {
+      "origin": "string",
+      "code": "invalid_format",
+      "format": "email",
+      "pattern": "/^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+      "path": [
+        "email"
+      ],
+      "message": "Invalid email format"
+    },
+    {
+      "origin": "string",
+      "code": "too_small",
+      "minimum": 6,
+      "inclusive": true,
+      "path": [
+        "password"
+      ],
+      "message": "Password must be at least 6 characters"
+    }
+  ]
+}
 ```
 
 A business-rule violation also returns `400`, for example booking a ticket for a past event (`{"ticket_id": 11, "quantity": 1}`):

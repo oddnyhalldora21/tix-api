@@ -21,7 +21,7 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
   } catch (error: any) {
     console.error('Booking error:', error);
     if (error.name === 'ZodError') {
-      res.status(400).json({ error: 'Validation failed', details: error.errors });
+      res.status(400).json({ error: 'Validation failed', details: error.issues });
     } else if (error.message === 'Not enough tickets available') {
       res.status(400).json({ error: error.message });
     } else if (error.message === 'Cannot book tickets for past events') {
